@@ -1,78 +1,102 @@
-# React + TypeScript + Vite
+# React Form PoC
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A small proof of concept to explore form handling and validation on the **frontend** using **React Hook Form**, **Zod**, and **TypeScript**.
 
-Currently, two official plugins are available:
+This started with a simple question:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+> What if I use React Hook Form + Zod to handle form validation on the frontend of my e-commerce project?
 
-## React Compiler
+The e-commerce already uses **Zod in its server actions**.
+This PoC explores bringing the same schema-based validation approach to the client side.
+Rather than changing the existing application right away, I decided to isolate the idea first, build a small component, and see how it feels in practice.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+This repository is the result.
 
-Note: This will impact Vite dev & build performances.
+## Context
 
-## Expanding the ESLint configuration
+The e-commerce project already uses Zod to validate data in its server actions.
+The forms themselves, however, were initially implemented using React state and input handling directly.
+There is nothing fundamentally wrong with that approach. It works. but while revisiting the project, I wanted to explore whether using **React Hook Form + Zod on the frontend** could make the form logic simpler and the validation rules more explicit.
+So, instead of introducing the new approach directly into the application, I pulled the idea out into a small PoC.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## What I'm exploring
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+This PoC brings together:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+* React Hook Form for form state and submission.
+* Zod for schema-based validation.
+* `zodResolver` to connect React Hook Form and Zod.
+* TypeScript for type safety and inference.
+* Vite for a lightweight development environment.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+The main idea is to explore whether the validation model already used by the server can also provide a good fit for the frontend.
 
+## Tech Stack
+
+* React
+* TypeScript
+* React Hook Form
+* Zod
+* `@hookform/resolvers`
+* Vite
+
+## Why a PoC?
+
+Because I don't want to introduce a new approach into an existing project just because it looks good on paper. The e-commerce already works, and it already uses Zod on the server side.
+So before changing the frontend forms, I wanted to build something small, use it, and see what I actually gain from the new approach.
+
+The question is not:
+
+> Is React Hook Form + Zod better?
+
+The question is:
+
+> Is it a better fit for the frontend of this particular project?
+
+I'll find that out when I integrate it back into the e-commerce.
+
+## Project Structure
+
+The project is intentionally small.
+The form component handles the UI and interaction, while the Zod schema contains the validation rules.
+The goal is to keep validation explicit and independent from the form implementation, while still taking advantage of TypeScript's type inference.
+
+## Running locally
+
+Install the dependencies:
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Start the development server:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm run dev
 ```
-# reactUseFormWithZod
+
+Vite will provide the local URL.
+
+## Related Project
+
+This PoC comes from an existing e-commerce project built with:
+
+* Next.js
+* TypeScript
+* Prisma
+* PostgreSQL
+* NextAuth
+* Zod
+* Tailwind CSS
+
+The application already uses Zod in its server actions.
+The frontend forms currently use React state and input handling.
+This repository explores a possible frontend refactoring path using React Hook Form and Zod.
+
+## Status
+
+**Proof of concept — experimental**
+
+This is intentionally not a form library or a production-ready component.
+It is a small experiment built to answer a real question in an existing project.
+If the approach proves useful, I'll bring it back into the e-commerce and see how it behaves there.
